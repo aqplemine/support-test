@@ -79,4 +79,4 @@ input.addEventListener("keydown", (e) => {
 });
 
 // First message
-addMessage("Hi! I'm your game support assistant. How can I help?", "bot");
+addMessage("Hi! I'm your game support assistant. How can I help you?", "bot");
