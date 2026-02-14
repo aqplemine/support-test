@@ -1,13 +1,180 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Game</title>
+  <meta charset="UTF-8">
+  <title>My Game Website</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+    }
+
+    h1 {
+      padding: 20px;
+    }
+
+    /* Chat Button */
+    #chat-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      background: #4f46e5;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Chat Window */
+    #chat-window {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 320px;
+      height: 400px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    #chat-header {
+      background: #4f46e5;
+      padding: 10px;
+      font-weight: bold;
+    }
+
+    #chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .message {
+      margin-bottom: 8px;
+    }
+
+    .bot {
+      color: #a5b4fc;
+    }
+
+    .user {
+      color: white;
+    }
+
+    #chat-input {
+      display: flex;
+    }
+
+    #chat-input input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      outline: none;
+    }
+
+    #chat-input button {
+      padding: 8px 12px;
+      border: none;
+      background: #4f46e5;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>My Game Website</h1>
+<h1>My Game Website</h1>
 
-  <link rel="stylesheet" href="chat.css">
-  <script src="chat.js"></script>
+<!-- Chat Button -->
+<button id="chat-toggle">💬</button>
+
+<!-- Chat Window -->
+<div id="chat-window">
+  <div id="chat-header">Game Support</div>
+  <div id="chat-messages"></div>
+  <div id="chat-input">
+    <input type="text" id="chat-text" placeholder="Type a message..." />
+    <button id="chat-send">Send</button>
+  </div>
+</div>
+
+<script>
+  const toggleBtn = document.getElementById("chat-toggle");
+  const chatWindow = document.getElementById("chat-window");
+  const messagesDiv = document.getElementById("chat-messages");
+  const input = document.getElementById("chat-text");
+  const sendBtn = document.getElementById("chat-send");
+
+  toggleBtn.onclick = () => {
+    if (chatWindow.style.display === "flex") {
+      chatWindow.style.display = "none";
+    } else {
+      chatWindow.style.display = "flex";
+    }
+  };
+
+  function addMessage(text, sender) {
+    const msg = document.createElement("div");
+    msg.classList.add("message", sender);
+    msg.textContent = text;
+    messagesDiv.appendChild(msg);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  function getBotReply(message) {
+    const text = message.toLowerCase();
+
+    if (text.includes("login")) {
+      return "If you're having login issues, try logging out and back in.";
+    }
+
+    if (text.includes("password")) {
+      return "You can reset your password from the login page.";
+    }
+
+    if (text.includes("progress")) {
+      return "Your progress is saved automatically to your account.";
+    }
+
+    if (text.includes("error 403")) {
+      return "Error 403 usually means your session expired. Try logging in again.";
+    }
+
+    return "I'm not sure about that yet. Try explaining in more detail.";
+  }
+
+  function handleSend() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    addMessage("You: " + text, "user");
+    input.value = "";
+
+    setTimeout(() => {
+      const reply = getBotReply(text);
+      addMessage("Bot: " + reply, "bot");
+    }, 400);
+  }
+
+  sendBtn.onclick = handleSend;
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  });
+
+  addMessage("Hi! I'm your game support assistant. How can I help?", "bot");
+</script>
+
 </body>
 </html>
