@@ -30,12 +30,12 @@ h1 {
   bottom: 90px;
   right: 20px;
   width: 320px;
-  height: 400px;
+  height: 440px;
   background: #1e1e1e;
   border-radius: 10px;
   display: none;
   flex-direction: column;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 #chat-header {
@@ -63,10 +63,16 @@ h1 {
   color: white;
 }
 
+#chat-config,
 #chat-input {
   display: flex;
 }
 
+#chat-config {
+  border-top: 1px solid #2d2d2d;
+}
+
+#chat-config input,
 #chat-input input {
   flex: 1;
   padding: 8px;
@@ -74,10 +80,16 @@ h1 {
   outline: none;
 }
 
+#chat-config button,
 #chat-input button {
   padding: 8px 12px;
   border: none;
   background: #4f46e5;
   color: white;
   cursor: pointer;
+}
+
+#chat-send:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
